@@ -1,0 +1,3 @@
+# Enable auto-env in ~/.sdkman/etc/config (sdkman_auto_env=true) to switch on cd.
+# Otherwise run `sdk env` in this folder.
+java=21.0.10-tem
