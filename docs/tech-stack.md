@@ -1,4 +1,4 @@
-> 생성: 2026-07-16 00:50 · 최종 수정: 2026-07-16 02:30
+> 생성: 2026-07-16 00:50 · 최종 수정: 2026-07-16 03:35
 
 # 기술 스택 & 실행 방법 (Tech Stack)
 
@@ -56,6 +56,10 @@ export JAVA_HOME=~/.sdkman/candidates/java/21.0.10-tem
 | `KAKAO_REDIRECT_URI` | 카카오 redirect URI |
 | `JWT_SECRET` | JWT HS256 서명키 |
 | `DB_URL` / `DB_USERNAME` / `DB_PASSWORD` | MySQL 접속 정보 |
+
+로컬은 프로젝트 루트 `.env`(gitignore)로 관리한다. 템플릿 `.env.example`(커밋)을 복사(`cp .env.example .env`)해 채운다.
+- **docker compose**: 같은 폴더의 `.env`를 자동으로 읽는다.
+- **Spring 앱**: `.env`를 자동으로 읽지 않는다. IntelliJ는 `EnvFile` 플러그인으로 `.env`를 주입하고(README 참고), 셸 실행은 `set -a; source .env; set +a`로 export한다.
 
 ## 프로젝트 구조
 
