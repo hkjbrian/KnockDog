@@ -1,4 +1,4 @@
-> 생성: 2026-07-16 00:50 · 최종 수정: 2026-07-16 03:35
+> 생성: 2026-07-16 00:50 · 최종 수정: 2026-07-16 03:43
 
 # 기술 스택 & 실행 방법 (Tech Stack)
 
@@ -55,7 +55,8 @@ export JAVA_HOME=~/.sdkman/candidates/java/21.0.10-tem
 | `KAKAO_CLIENT_SECRET` | 카카오 client secret |
 | `KAKAO_REDIRECT_URI` | 카카오 redirect URI |
 | `JWT_SECRET` | JWT HS256 서명키 |
-| `DB_URL` / `DB_USERNAME` / `DB_PASSWORD` | MySQL 접속 정보 |
+| `DB_PORT` | docker MySQL host 포트 |
+| `DB_URL` / `DB_USERNAME` / `DB_PASSWORD` | MySQL 접속 정보 (URL 포트는 `DB_PORT`와 일치) |
 
 로컬은 프로젝트 루트 `.env`(gitignore)로 관리한다. 템플릿 `.env.example`(커밋)을 복사(`cp .env.example .env`)해 채운다.
 - **docker compose**: 같은 폴더의 `.env`를 자동으로 읽는다.
