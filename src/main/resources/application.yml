@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: knockdog-auth
+
+  datasource:
+    url: ${DB_URL:jdbc:mysql://localhost:3306/knockdog}
+    username: ${DB_USERNAME:knockdog}
+    password: ${DB_PASSWORD:knockdog}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
+
+# 카카오 OAuth2 / JWT 설정은 각 기능 브랜치(feature/kakao-login, feature/jwt)에서 추가한다.
+# 모든 시크릿은 환경변수로 주입한다 (하드코딩 금지).
