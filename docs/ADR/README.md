@@ -1,4 +1,4 @@
-> 생성: 2026-07-16 00:50 · 최종 수정: 2026-07-16 00:50
+> 생성: 2026-07-16 00:50 · 최종 수정: 2026-07-16 02:30
 
 # ADR 인덱스 (Architecture Decision Records)
 
@@ -14,3 +14,5 @@
 | [0002](0002-role-onboarding.md) | 역할 결정 = 가입 후 온보딩 | Accepted |
 | [0003](0003-jwt-refresh-strategy.md) | JWT Access/Refresh + Refresh DB 저장 전략 | Accepted |
 | [0004](0004-minimal-data-model.md) | 데이터 모델 최소화 (인증 전용 테이블만) | Accepted |
+| [0005](0005-h2-test-database.md) | 테스트 DB로 H2 인메모리 채택 | Accepted |
+| [0006](0006-docker-mysql.md) | 로컬 MySQL을 Docker로 구동 | Accepted |

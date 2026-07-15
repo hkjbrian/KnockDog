@@ -1,4 +1,4 @@
-> 생성: 2026-07-16 00:50 · 최종 수정: 2026-07-16 00:50
+> 생성: 2026-07-16 00:50 · 최종 수정: 2026-07-16 02:30
 
 # 기술 스택 & 실행 방법 (Tech Stack)
 
@@ -13,6 +13,7 @@
 | DB | MySQL 8.0 (Docker) + Spring Data JPA | |
 | JWT | jjwt **0.12.7** | api / impl / jackson |
 | 보조 | Lombok, configuration-processor | |
+| 테스트 DB | H2 (in-memory, `testRuntimeOnly`) | 테스트는 DB 없이 통과 |
 
 ## ⚠️ Java 버전 주의 (빌드 시 필독)
 
@@ -31,14 +32,18 @@ export JAVA_HOME=~/.sdkman/candidates/java/21.0.10-tem
 ## 실행 방법
 
 ```bash
+# MySQL 기동 (루트 docker-compose.yml, MySQL 8.0)
+docker compose up -d
+
 export JAVA_HOME=~/.sdkman/candidates/java/21.0.10-tem
 
-./gradlew build            # 빌드
-./gradlew test             # 테스트
-./gradlew bootRun          # 앱 실행
+./gradlew build            # 빌드 (테스트 포함)
+./gradlew test             # 테스트 — H2 인메모리로 실행, DB 불필요
+./gradlew bootRun          # 앱 실행 (docker MySQL 필요)
 ```
 
-MySQL은 Docker로 구동한다. (docker-compose 구성 예정)
+- 테스트는 `src/test/resources/application.yml`의 H2 인메모리 DB로 실행되어 **별도 DB 없이 통과**한다.
+- 앱 실행(`bootRun`)은 docker MySQL이 떠 있어야 한다. MySQL은 루트 `docker-compose.yml`로 구동한다.
 
 ## 환경변수 (시크릿 — 하드코딩 금지)
 
@@ -56,11 +61,16 @@ MySQL은 Docker로 구동한다. (docker-compose 구성 예정)
 
 ```
 knockdog/                 ← 저장소 루트 = Spring 프로젝트 루트
-├── CLAUDE.md             ← 핵심 규칙 + 문서 인덱스
+├── README.md             ← 사람용 빠른 실행 가이드
+├── CLAUDE.md             ← 핵심 규칙 + 문서 인덱스 (AI용)
 ├── docs/                 ← 참조 문서 (본 파일 등)
+├── docker-compose.yml    ← MySQL 8.0 로컬 인프라
 ├── build.gradle
 ├── settings.gradle
 ├── .sdkmanrc             ← Java 21 고정
 ├── gradle/ gradlew ...
-└── src/main/java/com/knockdog/auth/   ← base package
+└── src/
+    ├── main/java/com/knockdog/auth/   ← base package
+    ├── main/resources/application.yml ← 앱 설정 (env 주입)
+    └── test/resources/application.yml ← 테스트용 H2 설정
 ```
