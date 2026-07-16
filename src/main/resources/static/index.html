@@ -20,12 +20,13 @@
 <body>
 <main>
   <h1>KnockDog 인증 확인</h1>
-  <p>카카오 로그인 후 Bearer Access Token과 HttpOnly Refresh 쿠키, CSRF 보호 API를 직접 확인하는 개발용 화면입니다.</p>
+  <p>카카오 로그인 후 Bearer Access Token과 HttpOnly Refresh 쿠키, 역할별 홈 API를 직접 확인하는 개발용 화면입니다.</p>
 
   <div class="actions">
     <a href="/oauth2/authorization/kakao">카카오로 로그인</a>
     <button class="secondary" type="button" data-role="OWNER">견주 역할로 확정</button>
     <button class="secondary" type="button" data-role="DIRECTOR">원장 역할로 확정</button>
+    <button type="button" id="home">역할별 홈 조회</button>
     <button type="button" id="refresh">토큰 재발급</button>
     <button type="button" id="logout">로그아웃</button>
   </div>
@@ -102,9 +103,22 @@
     return result;
   }
 
+  async function getHome() {
+    if (!accessToken) {
+      show({ message: '카카오 로그인 또는 토큰 재발급이 필요합니다.' });
+      return;
+    }
+
+    await readResponse(await fetch('/api/home', {
+      credentials: 'include',
+      headers: { Authorization: `Bearer ${accessToken}` }
+    }));
+  }
+
   document.querySelectorAll('[data-role]').forEach((button) => {
     button.addEventListener('click', () => post('/api/auth/signup/role', { role: button.dataset.role }, true));
   });
+  document.getElementById('home').addEventListener('click', getHome);
   document.getElementById('refresh').addEventListener('click', () => post('/api/auth/refresh'));
   document.getElementById('logout').addEventListener('click', async () => {
     await post('/api/auth/logout');
