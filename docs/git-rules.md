@@ -1,4 +1,4 @@
-> 생성: 2026-07-16 00:50 · 최종 수정: 2026-07-16 00:50
+> 생성: 2026-07-16 00:50 · 최종 수정: 2026-07-16 11:55
 
 # Git 규칙 (커밋 · 브랜치)
 
@@ -30,10 +30,16 @@ main ─── epic/* ─── feature/*
 
 - `main` ← `epic/*` ← `feature/*` 구조.
 - **`main`에 직접 push / 직접 작업 금지.** (부트스트랩 최초 커밋만 예외적으로 main에 존재)
-- epic은 큰 작업 단위로 분류: 예) `epic/auth`(인증 기능), `epic/project-setup`(초기 설정·문서).
+- epic은 큰 작업 단위로 분류: 예) `epic/auth`(인증 기능), `epic/project-setup`(초기 설정·문서). 큰 틀은 Milestone과 1:1 대응 → [github-rules.md](github-rules.md)
 - 기능 작업은 `feature/*` 브랜치에서 → 소속 `epic/*`로 PR.
 - **1 PR = 1 기능 단위**로 잘게. 기능 분할 판단은 자유.
-- 예시 브랜치: `feature/kakao-login`, `feature/jwt`, `feature/role-home`, `feature/dev-setup`.
+
+### feature 브랜치명
+
+- **작업 전 이슈를 먼저 만들고**, 그 번호로 브랜치를 딴다: **`feature/<#이슈>-<slug>`**
+  - 예: `feature/#12-jwt-provider`, `feature/#15-kakao-login`.
+  - `<slug>`는 소문자·하이픈(kebab-case)으로 짧게.
+- 이슈 → 브랜치 → PR 연결 규칙 상세는 [github-rules.md](github-rules.md) 참조.
 
 ## 시크릿
 

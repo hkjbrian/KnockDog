@@ -1,8 +1,15 @@
-> 생성: 2026-07-16 00:50 · 최종 수정: 2026-07-16 00:50
+> 생성: 2026-07-16 00:50 · 최종 수정: 2026-07-16 11:55
 
-# GitHub 규칙 (PR · 리뷰 · 머지)
+# GitHub 규칙 (이슈 · PR · 리뷰 · 머지)
 
 GitHub 플랫폼에서의 협업 규칙. 로컬 git(커밋·브랜치)은 [git-rules.md](git-rules.md) 참조.
+
+## 작업 흐름: 이슈 먼저 (Issue-driven)
+
+**코드/문서를 만지기 전에 이슈로 문제를 먼저 정의한다.** 전체 프로세스(Milestone↔epic 매핑, 이슈→브랜치→PR, 이슈 자동 close 제약)는 **[issue-driven-workflow.md](issue-driven-workflow.md)** 에 정리돼 있다. 아래는 GitHub PR 단계의 세부 규칙이다.
+
+- **PR 본문에 `Closes #<이슈>`** 를 넣어 이슈와 연결한다.
+- `feature/*` → `epic/*` PR은 머지해도 이슈가 **자동으로 닫히지 않으므로**(default 브랜치가 아님) 머지 후 `gh issue close <N>`로 수동 close한다.
 
 ## PR 대상 (base)
 
@@ -25,6 +32,8 @@ feature/*  ──PR──▶  epic/*  ──PR──▶  main
 ## 개요
 무엇을, 왜 했는지 1~3줄.
 
+Closes #<이슈번호>
+
 ## 변경 사항
 - 핵심 변경점 목록
 
@@ -34,6 +43,9 @@ feature/*  ──PR──▶  epic/*  ──PR──▶  main
 ## 관련 문서
 - 관련 ADR / docs 링크 (있으면)
 ```
+
+- `feature/*` → `epic/*` PR은 `Closes #N`으로 이슈를 연결하되, 머지 후 이슈를 **수동 close**한다(위 제약 참조).
+- `epic/*` → `main` PR은 그 epic에 속한 이슈/PR들을 요약해 링크한다.
 
 ## 리뷰 · 머지
 
