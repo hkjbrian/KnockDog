@@ -1,4 +1,4 @@
-> 생성: 2026-07-16 00:50 · 최종 수정: 2026-07-16 13:28
+> 생성: 2026-07-16 00:50 · 최종 수정: 2026-07-16 16:26
 
 # ADR 인덱스 (Architecture Decision Records)
 
@@ -17,3 +17,6 @@
 | [0005](0005-h2-test-database.md) | 테스트 DB로 H2 인메모리 채택 | Accepted |
 | [0006](0006-docker-mysql.md) | 로컬 MySQL을 Docker로 구동 | Accepted |
 | [0007](0007-server-time-handling.md) | 서버 시각은 Instant(UTC) + 주입 Clock | Accepted |
+| [0008](0008-security-filter-chain-split.md) | SecurityFilterChain을 API/기본 두 개로 분리 | Accepted |
+| [0009](0009-bearer-access-refresh-cookie.md) | Access는 Bearer 헤더, Refresh는 HttpOnly 쿠키 | Accepted |
+| [0010](0010-api-response-envelope.md) | 성공·실패 API 응답을 ApiResponse로 통일 | Accepted |

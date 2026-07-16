@@ -12,8 +12,35 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.H2Dialect
 
+  security:
+    oauth2:
+      client:
+        registration:
+          kakao:
+            client-id: test-kakao-client-id
+            client-secret: test-kakao-client-secret
+            client-authentication-method: client_secret_post
+            authorization-grant-type: authorization_code
+            redirect-uri: http://localhost:8080/login/oauth2/code/kakao
+            scope: profile_nickname
+        provider:
+          kakao:
+            authorization-uri: https://kauth.kakao.com/oauth/authorize
+            token-uri: https://kauth.kakao.com/oauth/token
+            user-info-uri: https://kapi.kakao.com/v2/user/me
+            user-name-attribute: id
+
 # 테스트 전용 고정 시크릿 (HS256 최소 32 bytes). 운영값과 무관.
 jwt:
   secret: test-secret-key-for-hs256-must-be-at-least-32-bytes-long-000
   access-exp: 30m
   refresh-exp: 14d
+
+auth:
+  refresh-cookie:
+    name: KD_REFRESH
+    secure: false
+    same-site: Lax
+
+app:
+  oauth-success-url: http://localhost:3000/auth/callback

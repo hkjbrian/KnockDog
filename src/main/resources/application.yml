@@ -16,10 +16,35 @@ spring:
       hibernate:
         format_sql: true
 
+  security:
+    oauth2:
+      client:
+        registration:
+          kakao:
+            client-id: ${KAKAO_CLIENT_ID}
+            client-secret: ${KAKAO_CLIENT_SECRET}
+            client-authentication-method: client_secret_post
+            authorization-grant-type: authorization_code
+            redirect-uri: ${KAKAO_REDIRECT_URI}
+            scope: profile_nickname
+        provider:
+          kakao:
+            authorization-uri: https://kauth.kakao.com/oauth/authorize
+            token-uri: https://kauth.kakao.com/oauth/token
+            user-info-uri: https://kapi.kakao.com/v2/user/me
+            user-name-attribute: id
+
 # JWT (ADR-0003). 서명키는 환경변수 JWT_SECRET 로만 주입한다 (하드코딩 금지).
 jwt:
   secret: ${JWT_SECRET}
   access-exp: 30m
   refresh-exp: 14d
 
-# 카카오 OAuth2 설정은 feature/kakao-login 브랜치에서 추가한다.
+auth:
+  refresh-cookie:
+    name: KD_REFRESH
+    secure: ${AUTH_COOKIE_SECURE:true}
+    same-site: Lax
+
+app:
+  oauth-success-url: ${FRONTEND_OAUTH_SUCCESS_URL:http://localhost:8080/}
