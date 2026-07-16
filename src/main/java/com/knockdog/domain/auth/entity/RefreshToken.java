@@ -29,7 +29,7 @@ public class RefreshToken {
     @Column(name = "user_id", nullable = false)
     private Long userId;
 
-    @Column(nullable = false, length = 512)
+    @Column(nullable = false, unique = true, length = 512)
     private String token;
 
     @Column(name = "expires_at", nullable = false)
