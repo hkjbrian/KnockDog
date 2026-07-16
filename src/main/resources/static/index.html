@@ -13,56 +13,40 @@
     button, a { box-sizing: border-box; border: 0; border-radius: 10px; padding: 12px 16px; font: inherit; font-weight: 700; text-align: center; cursor: pointer; }
     a { background: #ffe812; color: #381e1f; text-decoration: none; }
     button { background: #55341d; color: white; } button.secondary { background: #eee6de; color: #55341d; }
-    #status { display: block; min-height: 74px; margin: 0; overflow-wrap: anywhere; padding: 14px; border-radius: 10px; background: #f7f2ed; font: 13px ui-monospace, monospace; white-space: pre-wrap; }
     .hint { color: #78665a; font-size: 14px; }
   </style>
 </head>
 <body>
 <main>
   <h1>KnockDog 인증 확인</h1>
-  <p>카카오 로그인 후 Bearer Access Token과 HttpOnly Refresh 쿠키, CSRF 보호 API를 직접 확인하는 개발용 화면입니다.</p>
+  <p>카카오 로그인 후 Bearer Access Token과 HttpOnly Refresh 쿠키, 역할별 홈 API를 직접 확인하는 개발용 화면입니다.</p>
 
   <div class="actions">
     <a href="/oauth2/authorization/kakao">카카오로 로그인</a>
     <button class="secondary" type="button" data-role="OWNER">견주 역할로 확정</button>
     <button class="secondary" type="button" data-role="DIRECTOR">원장 역할로 확정</button>
+    <button type="button" id="home">역할별 홈 조회</button>
     <button type="button" id="refresh">토큰 재발급</button>
     <button type="button" id="logout">로그아웃</button>
   </div>
 
   <p class="hint">Access Token은 페이지 메모리에만 보관해 <code>Authorization: Bearer</code> 헤더로 전송합니다. 개발자 도구의 Application → Cookies에서는 <code>KD_REFRESH</code>만 HttpOnly로 설정됐는지 확인하세요.</p>
-  <pre id="status">CSRF 토큰을 준비하는 중…</pre>
 </main>
 
 <script>
-  const status = document.getElementById('status');
   let csrfHeaderName;
   let csrfToken;
   let accessToken;
 
-  function show(result) {
-    status.textContent = JSON.stringify(result, null, 2);
-  }
-
-  function showResponse(response, body) {
-    const displayBody = body?.data?.accessToken
-      ? { ...body, data: { ...body.data, accessToken: '[페이지 메모리에 보관됨]' } }
-      : body;
-    show({ httpStatus: response.status, body: displayBody });
-  }
-
-  async function readResponse(response, shouldDisplay = true) {
+  async function readResponse(response) {
     const body = await response.json().catch(() => null);
-    if (shouldDisplay) {
-      showResponse(response, body);
-    }
     return { response, body };
   }
 
-  async function loadCsrfToken(shouldDisplay = true) {
+  async function loadCsrfToken() {
     const { response, body } = await readResponse(await fetch('/api/auth/csrf', {
       credentials: 'include'
-    }), shouldDisplay);
+    }));
 
     if (response.ok && body?.data) {
       csrfHeaderName = body.data.headerName;
@@ -78,7 +62,7 @@
     const headers = { [csrfHeaderName]: csrfToken };
     if (requiresAccessToken) {
       if (!accessToken) {
-        show({ message: '카카오 로그인 또는 토큰 재발급이 필요합니다.' });
+        window.alert('카카오 로그인 또는 토큰 재발급이 필요합니다.');
         return null;
       }
       headers.Authorization = `Bearer ${accessToken}`;
@@ -97,14 +81,26 @@
     if (result.response.ok && result.body?.data?.accessToken) {
       accessToken = result.body.data.accessToken;
     }
-    await loadCsrfToken(false);
-    showResponse(result.response, result.body);
+    await loadCsrfToken();
     return result;
+  }
+
+  async function getHome() {
+    if (!accessToken) {
+      window.alert('카카오 로그인 또는 토큰 재발급이 필요합니다.');
+      return;
+    }
+
+    await readResponse(await fetch('/api/home', {
+      credentials: 'include',
+      headers: { Authorization: `Bearer ${accessToken}` }
+    }));
   }
 
   document.querySelectorAll('[data-role]').forEach((button) => {
     button.addEventListener('click', () => post('/api/auth/signup/role', { role: button.dataset.role }, true));
   });
+  document.getElementById('home').addEventListener('click', getHome);
   document.getElementById('refresh').addEventListener('click', () => post('/api/auth/refresh'));
   document.getElementById('logout').addEventListener('click', async () => {
     await post('/api/auth/logout');
