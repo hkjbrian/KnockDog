@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="680" height="730" viewBox="0 0 680 730" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Apple SD Gothic Neo', sans-serif">
+  <rect x="0" y="0" width="680" height="730" fill="#ffffff"/>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="#888780" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+  <text x="110" y="32" font-size="16" font-weight="600" fill="#2C2C2A">카카오 로그인 → 자체 JWT 발급 (8단계)</text>
+
+  <rect x="110" y="48" width="12" height="12" rx="3" fill="#F1EFE8" stroke="#B4B2A9"/>
+  <text x="128" y="58" font-size="12" fill="#5F5E5A">브라우저·사용자</text>
+  <rect x="270" y="48" width="12" height="12" rx="3" fill="#FAEEDA" stroke="#EF9F27"/>
+  <text x="288" y="58" font-size="12" fill="#854F0B">카카오</text>
+  <rect x="360" y="48" width="12" height="12" rx="3" fill="#E1F5EE" stroke="#5DCAA5"/>
+  <text x="378" y="58" font-size="12" fill="#0F6E56">내 백엔드</text>
+
+  <rect x="110" y="82" width="460" height="56" rx="8" fill="#F1EFE8" stroke="#B4B2A9"/>
+  <text x="340" y="105" font-size="14" font-weight="500" fill="#2C2C2A" text-anchor="middle">1. 카카오 로그인 클릭</text>
+  <text x="340" y="124" font-size="12" fill="#5F5E5A" text-anchor="middle">브라우저가 카카오 인증 페이지로 이동</text>
+  <line x1="340" y1="140" x2="340" y2="160" stroke="#888780" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <rect x="110" y="162" width="460" height="56" rx="8" fill="#FAEEDA" stroke="#EF9F27"/>
+  <text x="340" y="185" font-size="14" font-weight="500" fill="#633806" text-anchor="middle">2. 카카오에서 로그인·동의</text>
+  <text x="340" y="204" font-size="12" fill="#854F0B" text-anchor="middle">사용자가 카카오 계정으로 직접 인증</text>
+  <line x1="340" y1="220" x2="340" y2="240" stroke="#888780" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <rect x="110" y="242" width="460" height="56" rx="8" fill="#FAEEDA" stroke="#EF9F27"/>
+  <text x="340" y="265" font-size="14" font-weight="500" fill="#633806" text-anchor="middle">3. code를 redirect_uri로 전달</text>
+  <text x="340" y="284" font-size="12" fill="#854F0B" text-anchor="middle">설정한 주소로 ?code=xxx 리다이렉트</text>
+  <line x1="340" y1="300" x2="340" y2="320" stroke="#888780" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <rect x="110" y="322" width="460" height="56" rx="8" fill="#E1F5EE" stroke="#5DCAA5"/>
+  <text x="340" y="345" font-size="14" font-weight="500" fill="#04342C" text-anchor="middle">4. code로 토큰 교환 요청</text>
+  <text x="340" y="364" font-size="12" fill="#0F6E56" text-anchor="middle">client_secret 포함, 서버 대 서버 호출</text>
+  <line x1="340" y1="380" x2="340" y2="400" stroke="#888780" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <rect x="110" y="402" width="460" height="56" rx="8" fill="#FAEEDA" stroke="#EF9F27"/>
+  <text x="340" y="425" font-size="14" font-weight="500" fill="#633806" text-anchor="middle">5. 카카오 access token 응답</text>
+  <text x="340" y="444" font-size="12" fill="#854F0B" text-anchor="middle">카카오용 토큰 (조회 후 버림)</text>
+  <line x1="340" y1="460" x2="340" y2="480" stroke="#888780" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <rect x="110" y="482" width="460" height="56" rx="8" fill="#E1F5EE" stroke="#5DCAA5"/>
+  <text x="340" y="505" font-size="14" font-weight="500" fill="#04342C" text-anchor="middle">6. 사용자 정보 조회</text>
+  <text x="340" y="524" font-size="12" fill="#0F6E56" text-anchor="middle">GET /v2/user/me → kakaoId 획득</text>
+  <line x1="340" y1="540" x2="340" y2="560" stroke="#888780" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <rect x="110" y="562" width="460" height="56" rx="8" fill="#E1F5EE" stroke="#5DCAA5"/>
+  <text x="340" y="585" font-size="14" font-weight="500" fill="#04342C" text-anchor="middle">7. 가입 처리 + 자체 JWT 발급</text>
+  <text x="340" y="604" font-size="12" fill="#0F6E56" text-anchor="middle">신규면 가입, Access·Refresh 생성</text>
+  <line x1="340" y1="620" x2="340" y2="640" stroke="#888780" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <rect x="110" y="642" width="460" height="56" rx="8" fill="#F1EFE8" stroke="#B4B2A9"/>
+  <text x="340" y="665" font-size="14" font-weight="500" fill="#2C2C2A" text-anchor="middle">8. 이후 API는 Bearer JWT로</text>
+  <text x="340" y="684" font-size="12" fill="#5F5E5A" text-anchor="middle">GET /api/home 등 (Resource Server 검증)</text>
+</svg>

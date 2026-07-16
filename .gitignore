@@ -41,3 +41,8 @@ out/
 
 ### Claude Code (local settings only; shared .claude/settings.json is committed) ###
 .claude/settings.local.json
+
+### Env (secrets — never commit; template .env.example is tracked) ###
+.env
+.env.local
+!.env.example
