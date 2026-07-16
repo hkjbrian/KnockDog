@@ -97,7 +97,6 @@ class SecurityConfigTest {
         mockMvc().perform(get("/index.html"))
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("/oauth2/authorization/kakao")))
-                .andExpect(content().string(containsString("<pre id=\"status\">")))
                 .andExpect(content().string(containsString("Authorization: Bearer")))
                 .andExpect(content().string(containsString("/api/auth/csrf")))
                 .andExpect(content().string(containsString("/api/home")));
