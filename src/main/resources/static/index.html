@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KnockDog 인증 확인</title>
+  <style>
+    :root { color-scheme: light; font-family: system-ui, -apple-system, sans-serif; }
+    body { margin: 0; min-height: 100vh; display: grid; place-items: center; background: #fff8ed; color: #2d2118; }
+    main { width: min(92vw, 520px); padding: 32px; border-radius: 20px; background: white; box-shadow: 0 16px 50px #5033181f; }
+    h1 { margin: 0 0 8px; } p { line-height: 1.55; }
+    .actions { display: grid; gap: 10px; margin: 24px 0; }
+    button, a { box-sizing: border-box; border: 0; border-radius: 10px; padding: 12px 16px; font: inherit; font-weight: 700; text-align: center; cursor: pointer; }
+    a { background: #ffe812; color: #381e1f; text-decoration: none; }
+    button { background: #55341d; color: white; } button.secondary { background: #eee6de; color: #55341d; }
+    .hint { color: #78665a; font-size: 14px; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>KnockDog 인증 확인</h1>
+  <p>카카오 로그인 후 Bearer Access Token과 HttpOnly Refresh 쿠키, 역할별 홈 API를 직접 확인하는 개발용 화면입니다.</p>
+
+  <div class="actions">
+    <a href="/oauth2/authorization/kakao">카카오로 로그인</a>
+    <button class="secondary" type="button" data-role="OWNER">견주 역할로 확정</button>
+    <button class="secondary" type="button" data-role="DIRECTOR">원장 역할로 확정</button>
+    <button type="button" id="home">역할별 홈 조회</button>
+    <button type="button" id="refresh">토큰 재발급</button>
+    <button type="button" id="logout">로그아웃</button>
+  </div>
+
+  <p class="hint">Access Token은 페이지 메모리에만 보관해 <code>Authorization: Bearer</code> 헤더로 전송합니다. 개발자 도구의 Application → Cookies에서는 <code>KD_REFRESH</code>만 HttpOnly로 설정됐는지 확인하세요.</p>
+</main>
+
+<script>
+  let csrfHeaderName;
+  let csrfToken;
+  let accessToken;
+
+  async function readResponse(response) {
+    const body = await response.json().catch(() => null);
+    return { response, body };
+  }
+
+  async function loadCsrfToken() {
+    const { response, body } = await readResponse(await fetch('/api/auth/csrf', {
+      credentials: 'include'
+    }));
+
+    if (response.ok && body?.data) {
+      csrfHeaderName = body.data.headerName;
+      csrfToken = body.data.token;
+    }
+  }
+
+  async function post(path, body, requiresAccessToken = false) {
+    if (!csrfHeaderName || !csrfToken) {
+      await loadCsrfToken();
+    }
+
+    const headers = { [csrfHeaderName]: csrfToken };
+    if (requiresAccessToken) {
+      if (!accessToken) {
+        window.alert('카카오 로그인 또는 토큰 재발급이 필요합니다.');
+        return null;
+      }
+      headers.Authorization = `Bearer ${accessToken}`;
+    }
+    if (body) {
+      headers['Content-Type'] = 'application/json';
+    }
+
+    const result = await readResponse(await fetch(path, {
+      method: 'POST',
+      credentials: 'include',
+      headers,
+      body: body ? JSON.stringify(body) : undefined
+    }));
+
+    if (result.response.ok && result.body?.data?.accessToken) {
+      accessToken = result.body.data.accessToken;
+    }
+    await loadCsrfToken();
+    return result;
+  }
+
+  async function getHome() {
+    if (!accessToken) {
+      window.alert('카카오 로그인 또는 토큰 재발급이 필요합니다.');
+      return;
+    }
+
+    await readResponse(await fetch('/api/home', {
+      credentials: 'include',
+      headers: { Authorization: `Bearer ${accessToken}` }
+    }));
+  }
+
+  document.querySelectorAll('[data-role]').forEach((button) => {
+    button.addEventListener('click', () => post('/api/auth/signup/role', { role: button.dataset.role }, true));
+  });
+  document.getElementById('home').addEventListener('click', getHome);
+  document.getElementById('refresh').addEventListener('click', () => post('/api/auth/refresh'));
+  document.getElementById('logout').addEventListener('click', async () => {
+    await post('/api/auth/logout');
+    accessToken = undefined;
+  });
+
+  async function initialize() {
+    await loadCsrfToken();
+    if (new URLSearchParams(window.location.search).get('login') === 'success') {
+      window.history.replaceState({}, document.title, window.location.pathname);
+      await post('/api/auth/refresh');
+    }
+  }
+
+  initialize();
+</script>
+</body>
+</html>
