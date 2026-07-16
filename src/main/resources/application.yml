@@ -16,5 +16,10 @@ spring:
       hibernate:
         format_sql: true
 
-# 카카오 OAuth2 / JWT 설정은 각 기능 브랜치(feature/kakao-login, feature/jwt)에서 추가한다.
-# 모든 시크릿은 환경변수로 주입한다 (하드코딩 금지).
+# JWT (ADR-0003). 서명키는 환경변수 JWT_SECRET 로만 주입한다 (하드코딩 금지).
+jwt:
+  secret: ${JWT_SECRET}
+  access-exp: 30m
+  refresh-exp: 14d
+
+# 카카오 OAuth2 설정은 feature/kakao-login 브랜치에서 추가한다.
