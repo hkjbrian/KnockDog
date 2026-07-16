@@ -1,4 +1,4 @@
-package com.knockdog.auth;
+package com.knockdog;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
