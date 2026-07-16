@@ -1,4 +1,4 @@
-> 생성: 2026-07-16 00:50 · 최종 수정: 2026-07-16 00:50
+> 생성: 2026-07-16 00:50 · 최종 수정: 2026-07-16 14:27
 
 # 아키텍처 개요 (Architecture Overview)
 
@@ -17,6 +17,15 @@
 
 1~6은 `oauth2Login`이 자동 처리(→ [ADR-0001](ADR/0001-oauth2login.md)), 7은 `AuthenticationSuccessHandler`, 8은 Resource Server.
 한 앱에 **OAuth2 Client(카카오 로그인) + Resource Server(JWT 검증)** 가 함께 있다.
+
+## SecurityFilterChain 구성 (2체인)
+
+두 인증 방식이 서로 다른 세션·CSRF·응답 정책을 요구하므로 `SecurityFilterChain`을 두 개로 분리한다 (→ [ADR-0008](ADR/0008-security-filter-chain-split.md)).
+
+- **API 체인 `@Order(1)`**: `securityMatcher("/api/**")` · STATELESS · CSRF 비활성 · CORS 적용 · `anyRequest().authenticated()`. 401/403은 JSON 포맷(`{code, message}`)으로 응답한다. 이후 #12가 `oauth2ResourceServer().jwt()`를 이 체인에 붙인다.
+- **기본 체인 `@Order(2)`**: 브라우저용. 현재는 `permitAll()`. 이후 #11이 `oauth2Login()`을 이 체인에 붙인다.
+
+공통 응답 DTO는 `com.knockdog.global.common.dto.ErrorResponse`이며, `RestAuthenticationEntryPoint`(401)/`RestAccessDeniedHandler`(403)가 이를 직렬화한다.
 
 ## API 명세 요약
 
