@@ -11,3 +11,9 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.H2Dialect
+
+# 테스트 전용 고정 시크릿 (HS256 최소 32 bytes). 운영값과 무관.
+jwt:
+  secret: test-secret-key-for-hs256-must-be-at-least-32-bytes-long-000
+  access-exp: 30m
+  refresh-exp: 14d
