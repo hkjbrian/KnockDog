@@ -1,4 +1,4 @@
-> 생성: 2026-07-15 23:55 · 최종 수정: 2026-07-16 11:55
+> 생성: 2026-07-15 23:55 · 최종 수정: 2026-07-16 13:28
 
 # LLM 활용 기록
 
@@ -13,5 +13,6 @@
 | 2026-07-16 | 문서체계 | CLAUDE.md를 핵심 규칙+인덱스로 슬림화, docs를 카테고리(assignment/tech-stack/git-rules/github-rules/architecture-overview)로 분리, 설계 결정을 docs/ADR로 주제별 기록, 문서 작성 가이드 정립 | 구조·링크 일관성 확인 |
 | 2026-07-16 | 로컬 인프라 | docker-compose(MySQL 8.0)·application.yml(env 주입)·테스트용 H2 설정·README 작성. | `./gradlew clean build`(테스트 포함) 성공 확인 — H2로 contextLoads 통과 |
 | 2026-07-16 | 개발 프로세스 | 이슈 기반 워크플로우(Milestone↔epic, 이슈→`feature/<#>-<slug>`→PR) 설계를 AI와 문답으로 확정, 이슈 템플릿·규칙 문서(issue-driven-workflow.md) 작성 | GitHub `Closes` 자동 close가 default 브랜치 머지 시에만 동작함을 확인해 수동 close 규칙으로 반영, 프로세스를 이슈 #5로 직접 dogfooding |
+| 2026-07-16 | JWT 토큰 기반(#10) | AI와 TDD(RED→GREEN)로 `JwtTokenProvider`(jjwt 0.12.x·HS256, access/refresh 생성·검증·`validate`)·`RefreshToken` 엔티티/repo·`Role` enum 구현. 시각 취급 방식을 문답으로 검토해 ADR-0007(Instant/UTC + 주입 Clock) 도출, `Date`→`Instant`+`Clock` 리팩터 | `./gradlew build` 그린(단위 10개: 라운드트립·만료·서명위조·role 유무). 만료는 `Clock.fixed`로 결정론적 검증, 서명 위조는 다른 키로 거부 확인 |
 
-<!-- 이후 작업(kakao-login, jwt, role-home 등)마다 행 추가 -->
+<!-- 이후 작업(kakao-login, role-home 등)마다 행 추가 -->
