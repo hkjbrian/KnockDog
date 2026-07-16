@@ -1,4 +1,4 @@
-> 생성: 2026-07-16 00:50 · 최종 수정: 2026-07-16 03:43
+> 생성: 2026-07-16 00:50 · 최종 수정: 2026-07-16 16:26
 
 # 기술 스택 & 실행 방법 (Tech Stack)
 
@@ -55,6 +55,8 @@ export JAVA_HOME=~/.sdkman/candidates/java/21.0.10-tem
 | `KAKAO_CLIENT_SECRET` | 카카오 client secret |
 | `KAKAO_REDIRECT_URI` | 카카오 redirect URI |
 | `JWT_SECRET` | JWT HS256 서명키 |
+| `AUTH_COOKIE_SECURE` | Refresh JWT 쿠키 Secure 속성 (운영 `true`, 로컬 HTTP만 `false`) |
+| `FRONTEND_OAUTH_SUCCESS_URL` | OAuth 성공 뒤 refresh API로 access JWT를 복원할 프론트 URL |
 | `DB_PORT` | docker MySQL host 포트 |
 | `DB_URL` / `DB_USERNAME` / `DB_PASSWORD` | MySQL 접속 정보 (URL 포트는 `DB_PORT`와 일치) |
 
