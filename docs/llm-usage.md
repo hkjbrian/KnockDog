@@ -1,4 +1,4 @@
-> 생성: 2026-07-15 23:55 · 최종 수정: 2026-07-16 00:50
+> 생성: 2026-07-15 23:55 · 최종 수정: 2026-07-16 02:30
 
 # LLM 활용 기록
 
@@ -11,5 +11,6 @@
 | 2026-07-15 | 스캐폴딩 | Spring Initializr 산출물이 Boot 4.x로 생성되어, AI가 Boot 3.3.13 / Gradle 8.10.2로 의존성 좌표·버전 수정 (webmvc→web, 모듈 test starter→starter-test 등) | `./gradlew build` 성공 확인, 버전 요구사항(3.3.x/8.x/Java 21) 충족 확인 |
 | 2026-07-15 | 개발환경 | CLAUDE.md·.claude/settings.json·본 문서 등 AI 활용 환경 구성 | — |
 | 2026-07-16 | 문서체계 | CLAUDE.md를 핵심 규칙+인덱스로 슬림화, docs를 카테고리(assignment/tech-stack/git-rules/github-rules/architecture-overview)로 분리, 설계 결정을 docs/ADR로 주제별 기록, 문서 작성 가이드 정립 | 구조·링크 일관성 확인 |
+| 2026-07-16 | 로컬 인프라 | docker-compose(MySQL 8.0)·application.yml(env 주입)·테스트용 H2 설정·README 작성. | `./gradlew clean build`(테스트 포함) 성공 확인 — H2로 contextLoads 통과 |
 
 <!-- 이후 작업(kakao-login, jwt, role-home 등)마다 행 추가 -->
