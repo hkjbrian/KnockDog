@@ -66,7 +66,6 @@ public class SecurityConfig {
     public SecurityFilterChain browserSecurityFilterChain(HttpSecurity http) throws Exception {
 
         http
-                .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
                 // TODO(#11): oauth2Login(o -> o.userInfoEndpoint(...).successHandler(...))
                 ;

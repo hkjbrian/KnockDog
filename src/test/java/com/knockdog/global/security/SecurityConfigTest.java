@@ -1,8 +1,10 @@
 package com.knockdog.global.security;
 
 import static org.hamcrest.Matchers.containsString;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -76,6 +78,15 @@ class SecurityConfigTest {
                         throw new AssertionError("permitAll 경로가 인증/인가 실패로 응답됨: " + status);
                     }
                 });
+    }
+
+    @Test
+    void 브라우저_로그아웃은_CSRF_토큰없이_차단된다() throws Exception {
+        mockMvc().perform(post("/logout"))
+                .andExpect(status().isForbidden());
+
+        mockMvc().perform(post("/logout").with(csrf()))
+                .andExpect(status().is3xxRedirection());
     }
 
     /**
