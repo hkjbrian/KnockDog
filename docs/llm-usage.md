@@ -1,4 +1,4 @@
-> 생성: 2026-07-15 23:55 · 최종 수정: 2026-07-16 16:26
+> 생성: 2026-07-15 23:55 · 최종 수정: 2026-07-16 16:35
 
 # LLM 활용 기록
 
@@ -20,5 +20,6 @@
 | 2026-07-16 | 응답·트랜잭션 리팩터링(#11) | 의존성 주입 생성자를 Lombok `@RequiredArgsConstructor`로 통일하고, 서비스 기본 트랜잭션을 readOnly로 두고 쓰기 메서드에만 명시적 트랜잭션을 적용. 성공·실패 응답을 `ApiResponse<T>{code,message,data}`로 통일하는 ADR-0010과 예외/필터 처리를 반영 | Java 21 `./gradlew test` 성공. 401/403·CSRF 거부·역할 확정 성공 응답의 공통 envelope와 refresh 회귀 테스트 확인 |
 | 2026-07-16 | 카카오 로그인 수동 검증 화면(#11) | AI가 Spring Boot 정적 HTML 화면을 추가해 카카오 로그인 시작·CSRF 토큰 발급·Bearer 헤더 역할 확정·refresh·logout을 브라우저에서 직접 확인하도록 구성 | 정적 리소스 응답 테스트와 Java 21 전체 빌드로 확인. 실제 카카오 로그인은 앱 키·redirect URI 설정이 필요 |
 | 2026-07-16 | 인증 확인 화면 보완(#11) | AI가 인라인 `output` 태그로 인한 긴 CSRF 토큰의 깨진 렌더링을 블록형 `pre` 태그와 줄바꿈 CSS로 수정 | Java 21 `SecurityConfigTest` 성공, 정적 HTML에 상태 표시 영역이 포함되는지 확인 |
+| 2026-07-16 | 역할 기반 홈(#12) | AI가 #11의 `role` JWT 클레임·Resource Server 설정을 검토해, 메서드 보안으로 OWNER/DIRECTOR 홈 응답을 분기하고 role 없는 토큰은 403으로 차단하는 코드를 작성 | Java 21 `./gradlew test`로 OWNER·DIRECTOR 응답 분기와 role 없는 Bearer JWT의 403 JSON 응답을 확인 |
 
 <!-- 이후 작업(kakao-login, role-home 등)마다 행 추가 -->
